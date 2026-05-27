@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import '../data/doctor_data.dart';
+import '../widgets/bottom_nav_bar.dart';
 
 class DetailPage extends StatelessWidget {
-  const DetailPage({super.key});
+  final DoctorData doctor;
+
+  const DetailPage({
+    super.key,
+    required this.doctor,
+  });
 
   void showConfirmDialog(BuildContext context) {
     showDialog(
@@ -33,10 +40,10 @@ class DetailPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 10),
-              const Text(
-                'Ingin menjadwalkan\nkonsultasi dengan\ndr. Ahmad Hidayat?',
+              Text(
+                'Ingin menjadwalkan\nkonsultasi dengan\n${doctor.name}?',
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 12),
+                style: const TextStyle(fontSize: 12),
               ),
               const SizedBox(height: 20),
               Row(
@@ -83,42 +90,41 @@ class DetailPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Icon(Icons.arrow_back, size: 22),
-
+              InkWell(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: const Icon(Icons.arrow_back, size: 22),
+              ),
               const SizedBox(height: 20),
-
               Container(
                 width: double.infinity,
                 height: 210,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
-                  image: const DecorationImage(
-                    image: NetworkImage(
-                      'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d',
-                    ),
+                  image: DecorationImage(
+                    image: NetworkImage(doctor.imageUrl),
                     fit: BoxFit.cover,
                   ),
                 ),
               ),
-
               const SizedBox(height: 20),
-
               Row(
                 children: [
-                  const Expanded(
+                  Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'dr. Ahmad Hidayat',
-                          style: TextStyle(
+                          doctor.name,
+                          style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         Text(
-                          'Dokter Anak',
-                          style: TextStyle(
+                          doctor.specialist,
+                          style: const TextStyle(
                             color: Colors.grey,
                             fontSize: 12,
                           ),
@@ -133,57 +139,39 @@ class DetailPage extends StatelessWidget {
                   ),
                 ],
               ),
-
               const SizedBox(height: 22),
-
               const Text(
                 'JADWAL PRAKTIK',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
               ),
-
               const SizedBox(height: 5),
-
-              const Text(
-                'Senin - Jumat, 08.00 - 17.00',
-                style: TextStyle(fontSize: 12),
+              Text(
+                doctor.schedule,
+                style: const TextStyle(fontSize: 12),
               ),
-
               const SizedBox(height: 20),
-
               const Text(
                 'BIOGRAFI SINGKAT',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
               ),
-
               const SizedBox(height: 5),
-
-              const Text(
-                'Dokter spesialis anak dengan pengalaman lebih dari 10 tahun.',
-                style: TextStyle(fontSize: 12),
+              Text(
+                doctor.bio,
+                style: const TextStyle(fontSize: 12),
               ),
-
               const SizedBox(height: 18),
-
-              const Row(
+              Row(
                 children: [
-                  Icon(Icons.star, color: Colors.amber, size: 18),
-                  Icon(Icons.star, color: Colors.amber, size: 18),
-                  Icon(Icons.star, color: Colors.amber, size: 18),
-                  Icon(Icons.star, color: Colors.amber, size: 18),
-                  Icon(Icons.star_half, color: Colors.amber, size: 18),
-                  SizedBox(width: 8),
-                  Text('4.5'),
+                  const Icon(Icons.star, color: Colors.amber, size: 18),
+                  const Icon(Icons.star, color: Colors.amber, size: 18),
+                  const Icon(Icons.star, color: Colors.amber, size: 18),
+                  const Icon(Icons.star, color: Colors.amber, size: 18),
+                  const Icon(Icons.star_half, color: Colors.amber, size: 18),
+                  const SizedBox(width: 8),
+                  Text(doctor.rating.toString()),
                 ],
               ),
-
               const SizedBox(height: 55),
-
               SizedBox(
                 width: double.infinity,
                 height: 52,
@@ -205,6 +193,7 @@ class DetailPage extends StatelessWidget {
           ),
         ),
       ),
+      bottomNavigationBar: const BottomNavBar(selectedIndex: 1),
     );
   }
 }

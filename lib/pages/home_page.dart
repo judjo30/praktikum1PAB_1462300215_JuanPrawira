@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../data/doctor_data.dart';
+import '../widgets/bottom_nav_bar.dart';
 import 'detail_page.dart';
 
 class HomePage extends StatelessWidget {
@@ -34,9 +36,7 @@ class HomePage extends StatelessWidget {
                   SizedBox(width: 22),
                 ],
               ),
-
               const SizedBox(height: 18),
-
               Container(
                 width: double.infinity,
                 height: 145,
@@ -72,48 +72,33 @@ class HomePage extends StatelessWidget {
                   ],
                 ),
               ),
-
-              const SizedBox(height: 20),
-
+              const SizedBox(height: 16),
               Expanded(
                 child: ListView.builder(
-                  itemCount: categories.length,
+                  itemCount: doctorList.length,
                   itemBuilder: (context, index) {
-                    return Container(
-                      margin: const EdgeInsets.only(bottom: 14),
-                      child: InkWell(
+                    final doctor = doctorList[index];
+
+                    return Card(
+                      margin: const EdgeInsets.only(bottom: 12),
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          backgroundImage: NetworkImage(doctor.imageUrl),
+                        ),
+                        title: Text(
+                          doctor.name,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        subtitle: Text(doctor.specialist),
+                        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                         onTap: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const DetailPage(),
+                              builder: (context) => DetailPage(doctor: doctor),
                             ),
                           );
                         },
-                        child: Container(
-                          height: 54,
-                          padding: const EdgeInsets.symmetric(horizontal: 15),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFB9E0F7),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Row(
-                            children: [
-                              Icon(
-                                categories[index]['icon'],
-                                size: 18,
-                              ),
-                              const SizedBox(width: 12),
-                              Text(
-                                categories[index]['title'],
-                                style: const TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
                       ),
                     );
                   },
@@ -123,6 +108,7 @@ class HomePage extends StatelessWidget {
           ),
         ),
       ),
+      bottomNavigationBar: const BottomNavBar(selectedIndex: 0),
     );
   }
 }

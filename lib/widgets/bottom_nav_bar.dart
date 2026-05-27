@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../pages/home_page.dart';
-import '../pages/detail_page.dart';
+import '../pages/profile_page.dart';
 
 class BottomNavBar extends StatelessWidget {
   final int selectedIndex;
@@ -11,23 +11,22 @@ class BottomNavBar extends StatelessWidget {
   });
 
   void pindahHalaman(BuildContext context, int index) {
-    if (index == selectedIndex) {
-      return;
-    }
+    if (index == selectedIndex) return;
 
     if (index == 0) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(
-          builder: (context) => const HomePage(),
-        ),
+        MaterialPageRoute(builder: (context) => const HomePage()),
       );
     } else if (index == 1) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(
-          builder: (context) => const DetailPage(),
-        ),
+        MaterialPageRoute(builder: (context) => const HomePage()),
+      );
+    } else if (index == 2) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const ProfilePage()),
       );
     }
   }
@@ -36,10 +35,9 @@ class BottomNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       currentIndex: selectedIndex,
-      onTap: (index) {
-        pindahHalaman(context, index);
-      },
-      selectedItemColor: Colors.blue,
+      onTap: (index) => pindahHalaman(context, index),
+      backgroundColor: const Color(0xFF2DB2F3),
+      selectedItemColor: Colors.black,
       unselectedItemColor: Colors.black,
       items: const [
         BottomNavigationBarItem(
@@ -51,7 +49,7 @@ class BottomNavBar extends StatelessWidget {
           label: 'Movie',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.person),
+          icon: Icon(Icons.account_circle_outlined),
           label: 'Profile',
         ),
       ],
